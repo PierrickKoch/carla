@@ -182,9 +182,9 @@ static auto GetRawDataAsBuffer(T &self) {
   auto *data = reinterpret_cast<unsigned char *>(self.data());
   auto size = static_cast<Py_ssize_t>(sizeof(typename T::value_type) * self.size());
 #if PY_MAJOR_VERSION >= 3
-  auto *ptr = PyMemoryView_FromMemory(reinterpret_cast<char *>(data), size, PyBUF_READ);
+  auto *ptr = PyMemoryView_FromMemory(reinterpret_cast<char *>(data), size, PyBUF_WRITE);
 #else
-  auto *ptr = PyBuffer_FromMemory(data, size);
+  auto *ptr = PyBuffer_FromReadWriteMemory(data, size);
 #endif
   return boost::python::object(boost::python::handle<>(ptr));
 }
